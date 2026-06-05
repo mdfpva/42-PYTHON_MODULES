@@ -108,7 +108,7 @@ class Tree(Plant):
             print(f"Stats: {self._grow_calls} grow, "
                   f"{self._age_calls} age, "
                   f"{self._show_calls} show "
-                  f"{self._shade_calls} shade")
+                  f"\n {self._shade_calls} shade")
 
     def __init__(self, name: str, height: float, age: int, growth: float,
                  trunk_diameter: float) -> None:

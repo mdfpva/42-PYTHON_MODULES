@@ -1,26 +1,27 @@
 #!/usr/bin/env python3
 
 class Plant:
-    def __init__(self, name: str, height: float, aid: int,
+    def __init__(self, name: str, height: float, age: int,
                  growth: float) -> None:
-        self.name: str = name
-        self.height: float = height
-        self.aid: int = aid
-        self.growth: float = growth
-        print(f"Created: {self.name}: {round(self.height, 1)}cm, "
-              f"{self.aid} days old")
+        self._name: str = name
+        self._height: float = height
+        self._age: int = age
+        self._growth: float = growth
+        print(f"Created: {self._name}: {round(self._height, 1)}cm, "
+              f"{self._age} days old")
         return
 
     def grow(self) -> None:
-        self.height += self.growth
+        self._height += self._growth
         return
 
     def age(self) -> None:
-        self.aid += 1
+        self._age += 1
         return
 
     def show(self) -> None:
-        print(f"{self.name}: {round(self.height, 1)}cm, {self.aid} days old")
+        print(f"{self._name}: {round(self._height, 1)}cm, "
+              f"{self._age} days old")
         return
 
 
@@ -33,8 +34,7 @@ def ft_plant_factory() -> None:
         Plant("Sunflower", 80.0, 45, 0.5),
         Plant("Fern", 15.0, 120, 0.4)
     ]
-    for plant in plants:
-        plant.age()
+    _ = plants
     return
 
 
