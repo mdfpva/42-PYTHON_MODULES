@@ -16,7 +16,7 @@ def test_temperature() -> None:
         "100",
         "-50"
     ]
-    print("=== Garden Temperature ===\n")
+    print("=== Garden Temperature Checker ===\n")
     for temp in inputs:
         print(f"Input data is '{temp}'")
         try:

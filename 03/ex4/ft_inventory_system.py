@@ -25,12 +25,13 @@ def create_inventory() -> dict:
 def ft_inventory_system() -> None:
     inventory: dict = create_inventory()
     print(f"Got inventory: {inventory}")
-    items: list = list(inventory.keys())
+    items: list = list(dict.keys(inventory))
     print(f"Item list: {items}")
     total: int = sum(inventory.values())
     print(f"Total quantity of the {len(inventory)} items: {total}")
     for name in inventory:
-        print(f"Item {name} represents {round(inventory[name] / total * 100, 1)}%")
+        print(f"Item {name} represents "
+              f"{round(inventory[name] / total * 100, 1)}%")
     most: str = items[0]
     least: str = items[0]
     for name in items:
@@ -38,6 +39,10 @@ def ft_inventory_system() -> None:
             most = name
         if (inventory[name] < inventory[least]):
             least = name
+    print(f"Item most abundant: {most} with quantity {inventory[most]}")
+    print(f"Item least abundant: {least} with quantity {inventory[least]}")
+    dict.update(inventory, {"magic_item": 1})
+    print(f"Updated inventory: {inventory}")
     return
 
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
 class GardenError(Exception):
-    def __init__(self, message: str = "Unknown garden error"):
+    def __init__(self, message: str = "Unknown garden error") -> None:
         super().__init__(message)
 
 
 class PlantError(GardenError):
-    def __init__(self, message: str = "Unknown plant error"):
+    def __init__(self, message: str = "Unknown plant error") -> None:
         super().__init__(message)
 
 
@@ -45,12 +45,11 @@ def test_watering_system() -> None:
     finally:
         print("Closing watering system")
 
-    print("\nCleanup always happens, even with errors!")
-
 
 def main() -> None:
     test_watering_system()
     print("\nCleanup always happens, even with errors!")
+    return
 
 
 if __name__ == "__main__":

@@ -8,7 +8,7 @@ def garden_operations(operation_number: int) -> None:
     elif (operation_number == 2):
         open("/non/existent/file")
     elif (operation_number == 3):
-        "escola" + 42
+        "escola" + 42  # type: ignore
     return
 
 
@@ -18,7 +18,7 @@ def test_error_types() -> None:
         print(f"Testing operation {operation}...")
         try:
             garden_operations(operation)
-            print("Operation completed successfully!")
+            print("Operation completed successfully")
         except (ValueError, ZeroDivisionError, FileNotFoundError,
                 TypeError) as e:
             print(f"Caught {type(e).__name__}: {e}")
