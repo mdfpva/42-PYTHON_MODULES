@@ -13,10 +13,6 @@ def ft_read_file() -> typing.IO[str] | None:
         print(f"---\n\n{f.read()}\n\n---")
     except (FileNotFoundError, PermissionError) as e:
         print(f"Error opening file '{sys.argv[1]}': {e}")
-    finally:
-        if f is not None and not f.closed:
-            f.close()
-            print(f"File '{sys.argv[1]}' closed.")
     return f
 
 
