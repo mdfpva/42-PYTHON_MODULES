@@ -1,0 +1,21 @@
+# .gitignore — files that must NEVER be committed
+#
+# Why .env must be here:
+#   .env contains real secrets (API keys, database passwords). Git history
+#   is permanent — once a secret is pushed, it stays in every clone forever,
+#   even after being "deleted" in a later commit. Anyone with repo access
+#   (or a leak of it) gains the credentials. The safe pattern is:
+#     .env.example  → committed, fake values, documents the schema
+#     .env          → ignored, real values, lives only on each machine
+
+# Secrets — the real configuration file
+.env
+
+# Python bytecode caches
+__pycache__/
+*.pyc
+
+# Virtual environments (recreate with venv/poetry, never commit)
+.venv/
+venv/
+matrix_env/
