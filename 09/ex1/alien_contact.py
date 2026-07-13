@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Ex1 - Alien Contact Logs with model_validator business rules."""
 
 import json
@@ -49,6 +50,18 @@ class AlienContact(BaseModel):
         return self
 
 
+def display_contact(contact: AlienContact) -> None:
+    """Display contact information in the standard format."""
+    print(f"ID: {contact.contact_id}")
+    print(f"Type: {contact.contact_type.value}")
+    print(f"Location: {contact.location}")
+    print(f"Signal: {contact.signal_strength}/10")
+    print(f"Duration: {contact.duration_minutes} minutes")
+    print(f"Witnesses: {contact.witness_count}")
+    if contact.message_received is not None:
+        print(f"Message: '{contact.message_received}'")
+
+
 def find_data_dir() -> Path | None:
     """Locate the generated_data directory if it exists."""
     for candidate in (Path("generated_data"), Path("../generated_data")):
@@ -77,12 +90,15 @@ def validate_dataset(filepath: Path) -> None:
 
     valid_count = 0
     for index, record in enumerate(records):
+        print(f"Record {index}:")
         try:
-            AlienContact.model_validate(record)
+            contact = AlienContact.model_validate(record)
             valid_count += 1
+            display_contact(contact)
         except ValidationError as error:
             msg = error.errors()[0]["msg"]
-            print(f"  Record {index}: {msg.removeprefix('Value error, ')}")
+            print(f"INVALID - {msg.removeprefix('Value error, ')}")
+        print()
 
     print(f"{filepath.name}: {valid_count}/{len(records)} records valid")
 
@@ -104,13 +120,7 @@ def main() -> None:
     )
 
     print("Valid contact report:")
-    print(f"ID: {contact.contact_id}")
-    print(f"Type: {contact.contact_type.value}")
-    print(f"Location: {contact.location}")
-    print(f"Signal: {contact.signal_strength}/10")
-    print(f"Duration: {contact.duration_minutes} minutes")
-    print(f"Witnesses: {contact.witness_count}")
-    print(f"Message: '{contact.message_received}'")
+    display_contact(contact)
 
     print("=" * 38)
     try:

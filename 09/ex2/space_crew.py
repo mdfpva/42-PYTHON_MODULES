@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Ex2 - Space Crew Management with nested Pydantic models."""
 
 import json
@@ -65,6 +66,22 @@ class SpaceMission(BaseModel):
         return self
 
 
+def display_mission(mission: SpaceMission) -> None:
+    """Display mission information in the standard format."""
+    print(f"Mission: {mission.mission_name}")
+    print(f"ID: {mission.mission_id}")
+    print(f"Destination: {mission.destination}")
+    print(f"Duration: {mission.duration_days} days")
+    print(f"Budget: ${mission.budget_millions}M")
+    print(f"Crew size: {len(mission.crew)}")
+    print("Crew members:")
+    for member in mission.crew:
+        print(
+            f"- {member.name} ({member.rank.value})"
+            f" - {member.specialization}"
+        )
+
+
 def find_data_dir() -> Path | None:
     """Locate the generated_data directory if it exists."""
     for candidate in (Path("generated_data"), Path("../generated_data")):
@@ -93,12 +110,15 @@ def validate_dataset(filepath: Path) -> None:
 
     valid_count = 0
     for index, record in enumerate(records):
+        print(f"Record {index}:")
         try:
-            SpaceMission.model_validate(record)
+            mission = SpaceMission.model_validate(record)
             valid_count += 1
+            display_mission(mission)
         except ValidationError as error:
             msg = error.errors()[0]["msg"]
-            print(f"  Record {index}: {msg.removeprefix('Value error, ')}")
+            print(f"INVALID - {msg.removeprefix('Value error, ')}")
+        print()
 
     print(f"{filepath.name}: {valid_count}/{len(records)} records valid")
 
@@ -146,18 +166,7 @@ def main() -> None:
     )
 
     print("Valid mission created:")
-    print(f"Mission: {mission.mission_name}")
-    print(f"ID: {mission.mission_id}")
-    print(f"Destination: {mission.destination}")
-    print(f"Duration: {mission.duration_days} days")
-    print(f"Budget: ${mission.budget_millions}M")
-    print(f"Crew size: {len(mission.crew)}")
-    print("Crew members:")
-    for member in mission.crew:
-        print(
-            f"- {member.name} ({member.rank.value})"
-            f" - {member.specialization}"
-        )
+    display_mission(mission)
 
     print("=" * 41)
     try:

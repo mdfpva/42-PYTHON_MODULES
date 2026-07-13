@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Ex0 - Space Station Data validation with Pydantic BaseModel."""
 
 import json
@@ -18,6 +19,17 @@ class SpaceStation(BaseModel):
     last_maintenance: datetime
     is_operational: bool = True
     notes: str | None = Field(default=None, max_length=200)
+
+
+def display_station(station: SpaceStation) -> None:
+    """Display station information in the standard format."""
+    status = "Operational" if station.is_operational else "Offline"
+    print(f"ID: {station.station_id}")
+    print(f"Name: {station.name}")
+    print(f"Crew: {station.crew_size} people")
+    print(f"Power: {station.power_level}%")
+    print(f"Oxygen: {station.oxygen_level}%")
+    print(f"Status: {status}")
 
 
 def find_data_dir() -> Path | None:
@@ -48,12 +60,15 @@ def validate_dataset(filepath: Path) -> None:
 
     valid_count = 0
     for index, record in enumerate(records):
+        print(f"Record {index}:")
         try:
-            SpaceStation.model_validate(record)
+            station = SpaceStation.model_validate(record)
             valid_count += 1
+            display_station(station)
         except ValidationError as error:
             msg = error.errors()[0]["msg"]
-            print(f"  Record {index}: {msg}")
+            print(f"INVALID - {msg}")
+        print()
 
     print(f"{filepath.name}: {valid_count}/{len(records)} records valid")
 
@@ -73,14 +88,8 @@ def main() -> None:
         is_operational=True,
     )
 
-    status = "Operational" if station.is_operational else "Offline"
     print("Valid station created:")
-    print(f"ID: {station.station_id}")
-    print(f"Name: {station.name}")
-    print(f"Crew: {station.crew_size} people")
-    print(f"Power: {station.power_level}%")
-    print(f"Oxygen: {station.oxygen_level}%")
-    print(f"Status: {status}")
+    display_station(station)
 
     print("=" * 40)
     try:
